@@ -13,8 +13,6 @@ body {
 .column{
 	flex: 1;
 	display: flex;
-	border: 1px solid black;
-	background: blue;
 	flex-direction: column;
 	justify-content: space-around;
 	align-items: center;
