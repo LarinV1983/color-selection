@@ -14,6 +14,8 @@ document.addEventListener('click', function(event) {
 		? event.target : event.target.children[0]
 		node.classList.toggle('fa-lock-open')
 		node.classList.toggle('fa-lock')
+	} else if (type === 'copy') {
+		copyToClick(event.target.textContent);
 	}
 });
 
@@ -31,15 +33,19 @@ function copyToClick(text) {
 }
 
 function RandomColors() {
+	const colors =[];
 	columns.forEach((column) => {
 		const locked = column.querySelector('i').classList.contains('fa-lock');
 		const text = column.querySelector('h2');
 		const button = column.querySelector('button');
-		const color = generateRandomColors();
 
 		if (locked) {
+			colors.push(text.textContent)
 			return
 		}
+
+		const color = generateRandomColors();
+		colors.push(color);
 
 		text.textContent = color;
 		column.style.background = color;
@@ -47,11 +53,26 @@ function RandomColors() {
 		TextColor(text, color);
 		TextColor(button, color);
 	});
+
+	updateCororsHash(colors);
 };
 
 function TextColor(text, color) {
 	const luminance = chroma(color).luminance();
 	text.style.color = luminance > 0.5 ? 'black' : 'white';
+}
+
+function updateCororsHash(colors = []) {
+	document.location.hash = colors
+	.map((column) => column.substring(1))
+	.join('-')
+}
+
+function colorsFromHash() {
+	if (document.location.hash.length > 1) {
+		substring(1).split('-').map(color => '#' + color)
+	}
+	return [];
 }
 
 RandomColors();
